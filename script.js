@@ -34,6 +34,13 @@ svg
   .attr("id", "y-axis")
   .call(yAxis);
 
+// Tooltip:
+let toolTip = d3
+  .select("body")
+  .append("section")
+  .attr("id", "tooltip")
+  .style("visibility", "hidden");
+
 fetch(
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json"
 )
@@ -55,6 +62,15 @@ fetch(
       .attr("y", (d, i) => 470 - d[1] * 0.02)
       .attr("width", 1)
       .attr("height", (d) => d[1] * 0.02)
-      .style("fill", "black");
+      .style("fill", "black")
+      .on("mouseover", (d) => {
+        toolTip.style("visibility", "visible");
+        toolTip.html(
+          `Date: ${d.target.__data__[0]} <br> GDP: $${d.target.__data__[1]} Billion`
+        );
+      })
+      .on("mouseout", (d) => {
+        toolTip.style("visibility", "hidden");
+      });
   })
   .catch((e) => console.error(e));
