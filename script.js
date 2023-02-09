@@ -12,9 +12,10 @@ let svg = d3
 
 // x-axis:
 let xScale = d3
-  .scaleLinear()
+  .scaleTime()
   .range([0, 275 * 2])
-  .domain([0, 275]);
+  .domain([new Date(1947, 0, 1), new Date(2015, 9, 1)]);
+
 let xAxis = d3.axisBottom(xScale).ticks(10);
 
 svg
@@ -50,7 +51,7 @@ fetch(
       .attr("class", "bar")
       .attr("data-date", (d) => d[0])
       .attr("data-gdp", (d) => d[1])
-      .attr("x", (d, i) => 62 + i * 2)
+      .attr("x", (d, i) => 60 + i * 2)
       .attr("y", (d, i) => 470 - d[1] * 0.02)
       .attr("width", 1)
       .attr("height", (d) => d[1] * 0.02)
