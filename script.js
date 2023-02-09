@@ -48,6 +48,8 @@ fetch(
       .enter()
       .append("rect")
       .attr("class", "bar")
+      .attr("data-date", (d) => d[0])
+      .attr("data-gdp", (d) => d[1])
       .attr("x", (d, i) => 62 + i * 2)
       .attr("y", (d, i) => 470 - d[1] * 0.02)
       .attr("width", 1)
