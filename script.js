@@ -7,11 +7,14 @@ d3.select("body")
 let svg = d3
   .select("body")
   .append("svg")
-  .attr("width", 500)
+  .attr("width", 700)
   .attr("height", 500);
 
 // x-axis:
-let xScale = d3.scaleLinear().range([0, 400]).domain([0, 50]);
+let xScale = d3
+  .scaleLinear()
+  .range([0, 275 * 2])
+  .domain([0, 275]);
 let xAxis = d3.axisBottom(xScale).ticks(10);
 
 svg
@@ -35,7 +38,20 @@ fetch(
 )
   .then((r) => r.json())
   .then((d) => {
-    console.log(d);
+    console.log(d["data"]);
     // Main code goes here
+    const data = d["data"];
+    // Data bars:
+    svg
+      .selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("x", (d, i) => 62 + i * 2)
+      .attr("y", (d, i) => 470 - d[1] * 0.02)
+      .attr("width", 1)
+      .attr("height", (d) => d[1] * 0.02)
+      .style("fill", "black");
   })
   .catch((e) => console.error(e));
