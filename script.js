@@ -16,9 +16,19 @@ let xAxis = d3.axisBottom(xScale).ticks(10);
 
 svg
   .append("g")
-  .attr("transform", "translate(10," + 470 + ")")
+  .attr("transform", "translate(60," + 470 + ")")
   .attr("id", "x-axis")
   .call(xAxis);
+
+// y-axis:
+let yScale = d3.scaleLinear().range([400, 0]).domain([0, 20000]);
+let yAxis = d3.axisLeft(yScale).ticks(10);
+
+svg
+  .append("g")
+  .attr("transform", "translate(60, 70)")
+  .attr("id", "y-axis")
+  .call(yAxis);
 
 fetch(
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json"
