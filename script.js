@@ -1,23 +1,24 @@
+// Title
 d3.select("body")
   .append("h1")
   .text("United States GDP, 1947-2015")
   .attr("id", "title");
-const canvasWidth = "100%";
-const canvasHeight = "100%";
 
 // Canvas:
+const canvasWidth = "100%";
+const canvasHeight = "100%";
 let svg = d3
   .select("body")
   .append("svg")
   .attr("width", canvasWidth)
   .attr("height", canvasHeight);
 
-const width = d3.select("body").node().getBoundingClientRect().width;
-const height = d3.select("body").node().getBoundingClientRect().height;
+let width = d3.select("body").node().getBoundingClientRect().width;
+let height = d3.select("body").node().getBoundingClientRect().height;
 
 // Offsets:
-const yOffset = 60;
-const xOffset = width * 0.15;
+let yOffset = 60;
+let xOffset = width * 0.15;
 
 // x-axis:
 let xScale = d3
@@ -25,7 +26,7 @@ let xScale = d3
   .range([0, width * 0.7])
   .domain([new Date(1947, 0, 1), new Date(2015, 9, 1)]);
 
-let xAxis = d3.axisBottom(xScale).ticks(10);
+let xAxis = d3.axisBottom(xScale).ticks(4);
 
 svg
   .append("g")
@@ -65,7 +66,7 @@ fetch(
       .attr("class", "bar")
       .attr("data-date", (d) => d[0])
       .attr("data-gdp", (d) => d[1])
-      .attr("x", (d, i) => xOffset + 1 + i * ((width * 0.7) / 275))
+      .attr("x", (d, i) => xOffset + 1 + (i * (width * 0.7)) / 275)
       .attr("y", (d, i) => yScale(d[1]) + yOffset)
       .attr("width", (width * 0.8) / d["data"].length)
       .attr("height", (d) => height / 2 - yScale(d[1]))
@@ -86,5 +87,35 @@ fetch(
         d.target.style.fill = "black";
         tooltip.style("visibility", "hidden");
       });
+    // Chart text
+    d3.selectAll("text").style("font-size", "8px");
   })
   .catch((e) => console.error(e));
+
+function update() {
+  let width = d3.select("body").node().getBoundingClientRect().width;
+  let height = d3.select("body").node().getBoundingClientRect().height;
+  let yOffset = 60;
+  let xOffset = width * 0.15;
+
+  xScale.range([0, width * 0.7]);
+  yScale.range([height * 0.5, 0]);
+
+  d3.select("#x-axis")
+    .attr("transform", `translate(${xOffset}, ${height / 2 + yOffset})`)
+    .call(xAxis);
+  d3.select("#y-axis")
+    .attr("transform", `translate(${xOffset}, ${yOffset})`)
+    .call(yAxis);
+
+  svg.attr("width", canvasWidth).attr("height", canvasHeight);
+
+  svg
+    .selectAll("rect")
+    .attr("x", (d, i) => xOffset + 1 + i * ((width * 0.7) / 275))
+    .attr("y", (d) => yScale(d[1]) + yOffset)
+    .attr("width", (width * 0.8) / 275)
+    .attr("height", (d) => height / 2 - yScale(d[1]));
+}
+
+window.addEventListener("resize", update);
