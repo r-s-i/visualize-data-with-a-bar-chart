@@ -20,27 +20,26 @@ let height = d3.select("body").node().getBoundingClientRect().height;
 let yOffset = 60;
 let xOffset = width * 0.15;
 
-// x-axis:
+// Create x-axis:
 let xScale = d3
   .scaleTime()
   .range([0, width * 0.7])
   .domain([new Date(1947, 0, 1), new Date(2015, 9, 1)]);
-
 let xAxis = d3.axisBottom(xScale).ticks(4);
 
+// Create y-axis:
+let yAxisLength = height * 0.8;
+let yScale = d3.scaleLinear().range([yAxisLength, 0]).domain([0, 20000]);
+let yAxis = d3.axisLeft(yScale).ticks(10);
+
+// Append x-axis:
 svg
   .append("g")
-  .attr("transform", `translate(${xOffset}, ${height / 2 + yOffset})`)
+  .attr("transform", `translate(${xOffset}, ${yAxisLength + yOffset})`)
   .attr("id", "x-axis")
   .call(xAxis);
 
-// y-axis:
-let yScale = d3
-  .scaleLinear()
-  .range([height * 0.5, 0])
-  .domain([0, 20000]);
-let yAxis = d3.axisLeft(yScale).ticks(10);
-
+// Append y-axis:
 svg
   .append("g")
   .attr("transform", `translate(${xOffset}, ${yOffset})`)
@@ -66,10 +65,10 @@ fetch(
       .attr("class", "bar")
       .attr("data-date", (d) => d[0])
       .attr("data-gdp", (d) => d[1])
-      .attr("x", (d, i) => xOffset + 1 + (i * (width * 0.7)) / 275)
-      .attr("y", (d, i) => yScale(d[1]) + yOffset)
+      .attr("x", (d, i) => xOffset + (i * (width * 0.7)) / 275)
+      .attr("y", (d, i) => yScale(d[1]) + yOffset - 1)
       .attr("width", (width * 0.8) / d["data"].length)
-      .attr("height", (d) => height / 2 - yScale(d[1]))
+      .attr("height", (d) => yAxisLength - yScale(d[1]))
       .style("fill", "black")
       .on("mouseover", (d) => {
         d.target.style.fill = "white";
@@ -87,7 +86,7 @@ fetch(
         d.target.style.fill = "black";
         tooltip.style("visibility", "hidden");
       });
-    // Chart text
+    // Chart text:
     d3.selectAll("text").style("font-size", "8px");
   })
   .catch((e) => console.error(e));
@@ -99,10 +98,10 @@ function update() {
   let xOffset = width * 0.15;
 
   xScale.range([0, width * 0.7]);
-  yScale.range([height * 0.5, 0]);
+  yScale.range([yAxisLength, 0]);
 
   d3.select("#x-axis")
-    .attr("transform", `translate(${xOffset}, ${height / 2 + yOffset})`)
+    .attr("transform", `translate(${xOffset}, ${yAxisLength + yOffset})`)
     .call(xAxis);
   d3.select("#y-axis")
     .attr("transform", `translate(${xOffset}, ${yOffset})`)
@@ -113,9 +112,9 @@ function update() {
   svg
     .selectAll("rect")
     .attr("x", (d, i) => xOffset + 1 + i * ((width * 0.7) / 275))
-    .attr("y", (d) => yScale(d[1]) + yOffset)
+    .attr("y", (d) => yScale(d[1]) + yOffset - 1)
     .attr("width", (width * 0.8) / 275)
-    .attr("height", (d) => height / 2 - yScale(d[1]));
+    .attr("height", (d) => yAxisLength - yScale(d[1]));
 }
 
 window.addEventListener("resize", update);
