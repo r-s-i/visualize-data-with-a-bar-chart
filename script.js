@@ -68,6 +68,7 @@ fetch(
         toolTip.html(
           `Date: ${d.target.__data__[0]} <br> GDP: $${d.target.__data__[1]} Billion`
         );
+        toolTip.attr("data-date", d.target.__data__[0]);
       })
       .on("mouseout", (d) => {
         toolTip.style("visibility", "hidden");
