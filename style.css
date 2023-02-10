@@ -6,4 +6,10 @@ html {
   background: grey;
   color: white;
 }
+body {
+  margin: auto;
+  height: 80vh;
+  width: 80vw;
+  max-width: 1500px;
+}
 

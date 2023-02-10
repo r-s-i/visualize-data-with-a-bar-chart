@@ -2,35 +2,45 @@ d3.select("body")
   .append("h1")
   .text("United States GDP, 1947-2015")
   .attr("id", "title");
+const canvasWidth = "100%";
+const canvasHeight = "100%";
 
 // Canvas:
 let svg = d3
   .select("body")
   .append("svg")
-  .attr("width", 700)
-  .attr("height", 500);
+  .attr("width", canvasWidth)
+  .attr("height", canvasHeight);
+
+const width = d3.select("body").node().getBoundingClientRect().width;
+const height = d3.select("body").node().getBoundingClientRect().height;
 
 // x-axis:
 let xScale = d3
   .scaleTime()
-  .range([0, 275 * 2])
+  .range([0, width * 0.7])
   .domain([new Date(1947, 0, 1), new Date(2015, 9, 1)]);
 
 let xAxis = d3.axisBottom(xScale).ticks(10);
+const yOffset = 50;
+const xOffset = 60;
 
 svg
   .append("g")
-  .attr("transform", "translate(60," + 470 + ")")
+  .attr("transform", `translate(${xOffset}, ${height / 2 + yOffset})`)
   .attr("id", "x-axis")
   .call(xAxis);
 
 // y-axis:
-let yScale = d3.scaleLinear().range([400, 0]).domain([0, 20000]);
+let yScale = d3
+  .scaleLinear()
+  .range([height * 0.5, 0])
+  .domain([0, 20000]);
 let yAxis = d3.axisLeft(yScale).ticks(10);
 
 svg
   .append("g")
-  .attr("transform", "translate(60, 70)")
+  .attr("transform", `translate(${xOffset}, ${yOffset})`)
   .attr("id", "y-axis")
   .call(yAxis);
 
@@ -46,7 +56,6 @@ fetch(
 )
   .then((r) => r.json())
   .then((d) => {
-    console.log(d["data"]);
     // Main code goes here
     const data = d["data"];
     // Data bars:
@@ -58,10 +67,10 @@ fetch(
       .attr("class", "bar")
       .attr("data-date", (d) => d[0])
       .attr("data-gdp", (d) => d[1])
-      .attr("x", (d, i) => 60 + i * 2)
-      .attr("y", (d, i) => 470 - d[1] * 0.02)
-      .attr("width", 1)
-      .attr("height", (d) => d[1] * 0.02)
+      .attr("x", (d, i) => xOffset + 1 + i * ((width * 0.7) / 275))
+      .attr("y", (d, i) => yScale(d[1]) + yOffset)
+      .attr("width", (width * 0.8) / d["data"].length)
+      .attr("height", (d) => height / 2 - yScale(d[1]))
       .style("fill", "black")
       .on("mouseover", (d) => {
         toolTip.style("visibility", "visible");
