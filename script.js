@@ -15,6 +15,10 @@ let svg = d3
 const width = d3.select("body").node().getBoundingClientRect().width;
 const height = d3.select("body").node().getBoundingClientRect().height;
 
+// Offsets:
+const yOffset = 60;
+const xOffset = width * 0.15;
+
 // x-axis:
 let xScale = d3
   .scaleTime()
@@ -22,8 +26,6 @@ let xScale = d3
   .domain([new Date(1947, 0, 1), new Date(2015, 9, 1)]);
 
 let xAxis = d3.axisBottom(xScale).ticks(10);
-const yOffset = 50;
-const xOffset = 60;
 
 svg
   .append("g")
@@ -45,11 +47,7 @@ svg
   .call(yAxis);
 
 // Tooltip:
-let toolTip = d3
-  .select("body")
-  .append("section")
-  .attr("id", "tooltip")
-  .style("visibility", "hidden");
+let tooltip = d3.select("body").append("section").attr("id", "tooltip");
 
 fetch(
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json"
@@ -73,14 +71,20 @@ fetch(
       .attr("height", (d) => height / 2 - yScale(d[1]))
       .style("fill", "black")
       .on("mouseover", (d) => {
-        toolTip.style("visibility", "visible");
-        toolTip.html(
+        d.target.style.fill = "white";
+        tooltip.style(
+          "left",
+          xOffset + Number(d.target.attributes.x.value - 90) + "px"
+        );
+        tooltip.style("visibility", "visible");
+        tooltip.html(
           `Date: ${d.target.__data__[0]} <br> GDP: $${d.target.__data__[1]} Billion`
         );
-        toolTip.attr("data-date", d.target.__data__[0]);
+        tooltip.attr("data-date", d.target.__data__[0]);
       })
       .on("mouseout", (d) => {
-        toolTip.style("visibility", "hidden");
+        d.target.style.fill = "black";
+        tooltip.style("visibility", "hidden");
       });
   })
   .catch((e) => console.error(e));
