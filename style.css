@@ -1,16 +1,17 @@
-* {
-  border: 1px dashed black;
-}
-
 html {
   background: grey;
   color: white;
 }
+
 body {
+  text-align: center;
   margin: auto;
   height: 80vh;
   width: 80vw;
   max-width: 1500px;
+}
+h1 {
+  font-size: 1rem;
 }
 
 #tooltip {
