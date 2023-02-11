@@ -22,3 +22,15 @@ h1 {
   background: black;
 }
 
+#footer {
+  position: absolute;
+  top: 90vh; 
+  left: 0;
+  width: 100vw;
+  text-align: center;
+  font-size: 1rem;
+  color: #00B800;
+}
+#footer:visited {
+  color: yellow
+}
