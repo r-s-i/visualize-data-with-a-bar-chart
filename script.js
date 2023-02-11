@@ -17,7 +17,7 @@ let width = d3.select("body").node().getBoundingClientRect().width;
 let height = d3.select("body").node().getBoundingClientRect().height;
 
 // Offsets:
-let yOffset = 60;
+let yOffset = height * 0.1;
 let xOffset = width * 0.15;
 
 // Create x-axis:
@@ -94,7 +94,8 @@ fetch(
 function update() {
   let width = d3.select("body").node().getBoundingClientRect().width;
   let height = d3.select("body").node().getBoundingClientRect().height;
-  let yOffset = 60;
+  let yAxisLength = height * 0.8;
+  let yOffset = height * 0.1;
   let xOffset = width * 0.15;
 
   xScale.range([0, width * 0.7]);
