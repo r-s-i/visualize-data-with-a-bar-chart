@@ -4,7 +4,7 @@ This is my answer to freeCodeCamp's Visualize Data with a Bar Chart project. It 
 
 ## Getting Started
 
-No installation is required to run this project. You can simply run the code by opening the index.html file in a web browser. [Or go to where I host it](robiniversen.com/visualize-data-with-a-bar-chart).
+No installation is required to run this project. You can simply run the code by opening the index.html file in a web browser. [Or go to where I host it](https://robiniversen.com/visualize-data-with-a-bar-chart).
 
 ## Data Source
 
