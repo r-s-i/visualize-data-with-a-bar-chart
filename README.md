@@ -1,4 +1,4 @@
-# United States GDP Bar Graph
+# United States GDP, 1947-2015
 
 This is my answer to freeCodeCamp's Visualize Data with a Bar Chart project. It displays the United States GDP (Gross Domestic Product) from the year 1947 to 2015 (3Q). When using a mouse, the graph is interactive. Hovering over the bars, a tooltip displays the date and GDP in billions of dollars.
 
