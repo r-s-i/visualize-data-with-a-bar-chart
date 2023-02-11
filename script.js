@@ -69,9 +69,9 @@ fetch(
       .attr("y", (d, i) => yScale(d[1]) + yOffset - 1)
       .attr("width", (width * 0.8) / d["data"].length)
       .attr("height", (d) => yAxisLength - yScale(d[1]))
-      .style("fill", "black")
+      .style("fill", "#00B800")
       .on("mouseover", (d) => {
-        d.target.style.fill = "white";
+        d.target.style.fill = "#FE5D6D";
         tooltip.style(
           "left",
           xOffset + Number(d.target.attributes.x.value - 90) + "px"
@@ -83,7 +83,7 @@ fetch(
         tooltip.attr("data-date", d.target.__data__[0]);
       })
       .on("mouseout", (d) => {
-        d.target.style.fill = "black";
+        d.target.style.fill = "#00B800";
         tooltip.style("visibility", "hidden");
       });
     // Chart text:
